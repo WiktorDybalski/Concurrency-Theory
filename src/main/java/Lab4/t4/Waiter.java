@@ -5,8 +5,8 @@ import java.util.concurrent.Semaphore;
 public class Waiter {
     private final Semaphore semaphore;
 
-    public Waiter() {
-        this.semaphore = new Semaphore(4);
+    public Waiter(int N) {
+        this.semaphore = new Semaphore(N);
     }
 
     public boolean isPossibleToEat() {

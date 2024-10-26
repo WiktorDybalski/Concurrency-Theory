@@ -1,5 +1,7 @@
 package Lab4.t4;
 
+import Lab4.ResultPrinter;
+
 import java.time.Duration;
 import java.time.Instant;
 
@@ -9,13 +11,15 @@ class Person extends Thread {
     private final Fork leftFork;
     private final Fork rightFork;
     private final Waiter waiter;
+    private final ResultPrinter rp;
 
 
-    public Person(Fork leftFork, Fork rightFork, String name, Waiter waiter) {
+    public Person(Fork leftFork, Fork rightFork, String name, Waiter waiter, ResultPrinter rp) {
         this.leftFork = leftFork;
         this.rightFork = rightFork;
         this.name = name;
         this.waiter = waiter;
+        this.rp = rp;
     }
 
     private void think() throws InterruptedException {
@@ -31,7 +35,7 @@ class Person extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            for (int i = 0; i < 10; i++) {
                 think();
                 Instant start = Instant.now();
 
@@ -46,6 +50,7 @@ class Person extends Thread {
 
                             Instant end = Instant.now();
                             Duration timeElapsed = Duration.between(start, end);
+                            rp.addTime(timeElapsed.toMillis());
                             System.out.println(name + ": Time taken: " + timeElapsed.toMillis() + " milliseconds");
                         } else {
                             System.out.println(name + ": " + "Unfortunately, It was taken, Picking down right fork");
