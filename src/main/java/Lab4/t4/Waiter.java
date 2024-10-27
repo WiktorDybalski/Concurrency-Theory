@@ -8,7 +8,7 @@ public class Waiter {
     private final Semaphore semaphore;
 
     public Waiter() {
-        this.semaphore = new Semaphore(Configurator.getNumberOfPeople());
+        this.semaphore = new Semaphore(Configurator.getNumberOfPeople() - 1);
     }
 
     public boolean isPossibleToEat() {
