@@ -44,13 +44,13 @@ class Person extends Thread {
                     if (leftFork.tryPickUp()) {
                         if (rightFork.tryPickUp()) {
                             eat();
-                            leftFork.putDown();
-                            rightFork.putDown();
-                            waiter.doneEating();
-
                             Instant end = Instant.now();
                             Duration timeElapsed = Duration.between(start, end);
                             rp.addTime(timeElapsed.toMillis());
+
+                            leftFork.putDown();
+                            rightFork.putDown();
+                            waiter.doneEating();
                             System.out.println(name + ": Time taken: " + timeElapsed.toMillis() + " milliseconds");
                         } else {
                             System.out.println(name + ": " + "Unfortunately, It was taken, Picking down right fork");

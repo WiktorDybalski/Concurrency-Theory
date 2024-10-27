@@ -7,16 +7,16 @@ public class ResultPrinter {
     private List<Long> waitingTimes;
     private final int N;
 
-    public ResultPrinter(int N) {
+    public ResultPrinter() {
         this.waitingTimes = new ArrayList<>();
-        this.N = N;
+        this.N = Configurator.numberOfPeople;
     }
 
     public void addTime(long time) {
         waitingTimes.add(time);
     }
 
-    public void printResult() {
+    public long printResultAndReturn() {
         int averageWaitingTime = 0;
 
         for (Long waitingTime : waitingTimes) {
@@ -27,5 +27,6 @@ public class ResultPrinter {
         System.out.println("-------------------------------------------");
         System.out.println("AverageTime for " + N + " people: " + result + "ms");
         System.out.println("-------------------------------------------");
+        return result;
     }
 }
