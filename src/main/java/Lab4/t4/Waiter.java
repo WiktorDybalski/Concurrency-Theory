@@ -11,8 +11,12 @@ public class Waiter {
         this.semaphore = new Semaphore(Configurator.getNumberOfPeople() - 1);
     }
 
-    public boolean isPossibleToEat() {
-        return semaphore.tryAcquire();
+    public void acquirePermissionToEat() {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void doneEating() {

@@ -39,33 +39,30 @@ class Person extends Thread {
                 think();
                 Instant start = Instant.now();
 
-                if (waiter.isPossibleToEat()) {
-                    System.out.println(name + ": " + "Waiter approved");
-                    if (leftFork.tryPickUp()) {
-                        if (rightFork.tryPickUp()) {
-                            eat();
-                            Instant end = Instant.now();
-                            Duration timeElapsed = Duration.between(start, end);
-                            rp.addTime(timeElapsed.toMillis());
+                waiter.acquirePermissionToEat();
+                System.out.println(name + ": " + "Waiter approved");
+                if (leftFork.tryPickUp()) {
+                    if (rightFork.tryPickUp()) {
+                        eat();
+                        Instant end = Instant.now();
+                        Duration timeElapsed = Duration.between(start, end);
+                        rp.addTime(timeElapsed.toMillis());
 
-                            leftFork.putDown();
-                            rightFork.putDown();
-                            waiter.doneEating();
-                            System.out.println(name + ": Time taken: " + timeElapsed.toMillis() + " milliseconds");
-                        } else {
-                            System.out.println(name + ": " + "Unfortunately, It was taken, Picking down right fork");
-                            leftFork.putDown();
-                        }
+                        leftFork.putDown();
+                        rightFork.putDown();
+                        waiter.doneEating();
+                        System.out.println(name + ": Time taken: " + timeElapsed.toMillis() + " milliseconds");
                     } else {
-                        System.out.println(name + ": Left fork was taken, waiting to try again");
+                        System.out.println(name + ": " + "Unfortunately, It was taken, Picking down right fork");
+                        leftFork.putDown();
                     }
                 } else {
-                    System.out.println(name + ": Maximum number of people reached");
+                    System.out.println(name + ": Left fork was taken, waiting to try again");
                 }
             }
-        } catch (InterruptedException e) {
+        } catch (
+                InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 }
-
